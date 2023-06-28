@@ -34,22 +34,6 @@ export class App extends Component {
     );
   };
 
-  // }
-
-  // onAddContact = contact => {
-  //   if (
-  //     this.state.contacts.filter(
-  //       element => element.name.toLowerCase() === contact.name.toLowerCase()
-  //     ).length > 0
-  //   ) {
-  //     return alert(`${contact.name} is already in contacts`);
-  //   }
-  //   this.setState(prevState => {
-  //     const arr = [...prevState.contacts, contact];
-  //     return { contacts: arr };
-  //   });
-  // };
-
   onAddContact = contactItem => {
     if (
       this.state.contacts.filter(
@@ -63,6 +47,20 @@ export class App extends Component {
       return { contacts: arr };
     });
   };
+
+  componentDidMount() {
+    const contacts = localStorage.getItem('contacts');
+    const parsedContacts = JSON.parse(contacts);
+    if (parsedContacts) {
+      this.setState({ contacts: parsedContacts });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
 
   render() {
     const { filter } = this.state;
