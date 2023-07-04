@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
@@ -11,8 +11,14 @@ const initState = [
 ];
 
 export const App = () => {
-  const [contacts, setContacts] = useState(initState);
+  const [contacts, setContacts] = useState(() =>
+    JSON.parse(localStorage.getItem('contacts') || initState)
+  );
   const [filter, setFilter] = useState('');
+
+  useEffect(() => {
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
 
   const deleteContact = id => {
     setContacts(prev => prev.filter(contact => contact.id !== id));
@@ -37,10 +43,7 @@ export const App = () => {
     ) {
       return alert(`${contactItem.name} is already in contacts`);
     }
-    this.setState(prevState => {
-      const arr = [...prevState.contacts, contactItem];
-      return { contacts: arr };
-    });
+    setContacts(prev => [...prev, contactItem]);
   };
 
   //   componentDidMount() {
