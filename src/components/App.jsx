@@ -28,10 +28,11 @@ export const App = () => {
     setFilter(e.target.value);
   };
 
-  const getVisibleContacts = () =>
-    contacts.filter(contact =>
+  const getVisibleContacts = () => {
+    return contacts.filter(contact =>
       contact.name.toLowerCase().includes(filter.toLowerCase())
     );
+  };
 
   const onAddContact = ({ name, number }) => {
     if (
