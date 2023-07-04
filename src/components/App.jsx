@@ -35,15 +35,15 @@ export const App = () => {
     );
   };
 
-  const onAddContact = contactItem => {
+  const onAddContact = ({ name, number }) => {
     if (
-      contacts.filter(
-        elem => elem.name.toLowerCase() === contactItem.name.toLowerCase()
-      ).length > 0
+      contacts.filter(elem => elem.name.toLowerCase() === name.toLowerCase())
+        .length > 0
     ) {
-      return alert(`${contactItem.name} is already in contacts`);
+      return alert(`${name} is already in contacts`);
     }
-    setContacts(prev => [...prev, contactItem]);
+    const newContact = { id: crypto.randomUUID(), name, number };
+    setContacts(prev => [...prev, newContact]);
   };
 
   //   componentDidMount() {
